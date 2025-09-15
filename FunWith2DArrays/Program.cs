@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using Console = Colorful.Console;
 
 namespace FunWith2DArrays
@@ -46,14 +45,17 @@ namespace FunWith2DArrays
                 Console.WriteLine("Choose what to fill the grid with:\n1 - Colourful Symbols\n2 - Coordinates\n3 - Number Sequence\nEnter your choice(1 - 3): ");
                 inputChoice = Console.ReadLine();
 
-                if (inputChoice == COLOURFUL_SYMBOLS || inputChoice == COORDINATES || inputChoice == NUMBER_SEQUENCE)
+                switch (inputChoice)
                 {
-                    break;
+                    case COLOURFUL_SYMBOLS:
+                    case COORDINATES:
+                    case NUMBER_SEQUENCE:
+                        break;
+                    default:
+                        Console.WriteLine("\n**** Please enter a number from 1 to 3. ****\n");
+                        continue;
                 }
-                else
-                {
-                    Console.WriteLine("\n**** Please enter a number from 1 to 3. ****\n");
-                }
+                break;
             }
 
 
@@ -69,19 +71,24 @@ namespace FunWith2DArrays
             int sequenceCounter = 1;
 
             // Determine the maximum cell width so the grid lines up to each no matter the size
-            int maxCellWidth = 0;
+            int maxCellWidth;
+            switch (inputChoice)
+            {
+                case COLOURFUL_SYMBOLS:
+                    maxCellWidth = 2;
+                    break;
 
-            if (inputChoice == COLOURFUL_SYMBOLS)
-            {
-                maxCellWidth = 2;
-            }
-            if (inputChoice == COORDINATES)
-            {
-                maxCellWidth = $"({numOfRows - 1},{numOfCols - 1})".Length;
-            }
-            if (inputChoice == NUMBER_SEQUENCE)
-            {
-                maxCellWidth = (numOfRows * numOfCols).ToString().Length;
+                case COORDINATES:
+                    maxCellWidth = $"({numOfRows - 1},{numOfCols - 1})".Length;
+                    break;
+
+                case NUMBER_SEQUENCE:
+                    maxCellWidth = (numOfRows * numOfCols).ToString().Length;
+                    break;
+
+                default:
+                    maxCellWidth = 2;
+                    break;
             }
 
             // Create the board and fill it
@@ -89,25 +96,22 @@ namespace FunWith2DArrays
             {
                 for (int c = 0; c < numOfCols; c++)
                 {
-                    // Random Symbols
-                    if (inputChoice == COLOURFUL_SYMBOLS)
+                    switch (inputChoice)
                     {
-                        Console.Write($" {symbolsArray[rand.Next(symbolsArray.Length)]} ", Color.FromName(colorNames[rand.Next(colorNames.Length)]));
-                    }
+                        case COLOURFUL_SYMBOLS:
+                            Console.Write($"{symbolsArray[rand.Next(symbolsArray.Length)]}".PadLeft(maxCellWidth).PadRight(maxCellWidth + 1), Color.FromName(colorNames[rand.Next(colorNames.Length)]));
+                            break;
 
-                    // Coordinates
-                    if (inputChoice == COORDINATES)
-                    {
-                        Console.Write($"({r},{c})".PadLeft(maxCellWidth).PadRight(maxCellWidth + 1));
-                    }
+                        case COORDINATES:
+                            Console.Write($"({r},{c})".PadLeft(maxCellWidth).PadRight(maxCellWidth + 1));
+                            break;
 
-                    // Number sequence
-                    if (inputChoice == NUMBER_SEQUENCE)
-                    {
-                        Console.Write($"{sequenceCounter}".PadLeft(maxCellWidth).PadRight(maxCellWidth + 1));
-                        sequenceCounter++;
-                    }
+                        case NUMBER_SEQUENCE:
+                            Console.Write($"{sequenceCounter}".PadLeft(maxCellWidth).PadRight(maxCellWidth + 1));
+                            sequenceCounter++;
+                            break;
 
+                    }
 
                     // Column separation
                     if (c < numOfCols - 1)
