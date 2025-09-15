@@ -42,7 +42,7 @@ namespace FunWith2DArrays
             while (true)
             {
                 // Choose what to fill the grid with
-                Console.WriteLine("Choose what to fill the grid with:\n1 - Colourful Symbols\n2 - Coordinates\n3 - Number Sequence\nEnter your choice(1 - 3): ");
+                Console.WriteLine($"Choose what to fill the grid with:\n{COLOURFUL_SYMBOLS} - Colourful Symbols\n{COORDINATES} - Coordinates\n{NUMBER_SEQUENCE} - Number Sequence\nEnter your choice(1 - 3): ");
                 inputChoice = Console.ReadLine();
 
                 switch (inputChoice)
