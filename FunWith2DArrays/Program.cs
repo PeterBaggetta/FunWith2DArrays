@@ -8,6 +8,11 @@ namespace FunWith2DArrays
     {
         static void Main(string[] args)
         {
+            const string COLOURFUL_SYMBOLS = "1";
+            const string COORDINATES = "2";
+            const string NUMBER_SEQUENCE = "3";
+
+            // ----- Introduction and user inputs ----- //
             Console.WriteLine("Welcome to having fun with 2D arrays.\nPlease enter in the number of rows and columns you would like!\n");
 
             int numOfRows, numOfCols;
@@ -15,33 +20,49 @@ namespace FunWith2DArrays
             {
                 // Player chooses number of rows
                 Console.WriteLine("Please enter in the number of rows: ");
-                numOfRows = Convert.ToInt32(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out numOfRows) || numOfRows <= 0)
+                {
+                    Console.WriteLine("\n**** Please enter a number that is greater than zero. ****\n");
+                    continue;
+                }
 
                 // Player chooses number of columns
                 Console.WriteLine("Please enter in the number of columns: ");
-                numOfCols = Convert.ToInt32(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out numOfCols) || numOfCols <= 0)
+                {
+                    Console.WriteLine("\n**** Please enter a number that is greater than zero. ****\n");
+                    continue;
+                }
 
-                // Input Validation
-                if (numOfRows > 0 && numOfCols > 0)
+                // Both inputs are valid
+                break;
+            }
+
+
+            string inputChoice;
+            while (true)
+            {
+                // Choose what to fill the grid with
+                Console.WriteLine("Choose what to fill the grid with:\n1 - Colourful Symbols\n2 - Coordinates\n3 - Number Sequence\nEnter your choice(1 - 3): ");
+                inputChoice = Console.ReadLine();
+
+                if (inputChoice == COLOURFUL_SYMBOLS || inputChoice == COORDINATES || inputChoice == NUMBER_SEQUENCE)
                 {
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("\n**** Please enter a number that is greater than zero. ****\n");
+                    Console.WriteLine("\n**** Please enter a number from 1 to 3. ****\n");
                 }
             }
 
+
+            Random rand = new Random();
+
             // Colour Array
-            string[] colorNames = { "Black", "White", "Gray", "Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "Orange", "Purple", "Pink", "Brown"};
-
-            // Choose what to fill the grid with
-            Console.WriteLine("Choose what to fill the grid with:\n1 - Colourful Symbols\n2 - Coordinates\n3 - Number Sequence\nEnter your choice(1 - 3): ");
-            string inputChoice = Console.ReadLine();
-
+            string[] colorNames = { "Black", "White", "Gray", "Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "Orange", "Purple", "Pink", "Brown" };
 
             // Symbols array
-            Random rand = new Random();
             string[] symbolsArray = { "!", "@", "#", "$", "%", "^", "&", "*", "~", "-", ";", ":", "<", ">", "?" };
 
             // Counter for Number Sequence
@@ -50,15 +71,15 @@ namespace FunWith2DArrays
             // Determine the maximum cell width so the grid lines up to each no matter the size
             int maxCellWidth = 0;
 
-            if (inputChoice == "1")
+            if (inputChoice == COLOURFUL_SYMBOLS)
             {
                 maxCellWidth = 2;
             }
-            if (inputChoice == "2")
+            if (inputChoice == COORDINATES)
             {
                 maxCellWidth = $"({numOfRows - 1},{numOfCols - 1})".Length;
             }
-            if (inputChoice == "3")
+            if (inputChoice == NUMBER_SEQUENCE)
             {
                 maxCellWidth = (numOfRows * numOfCols).ToString().Length;
             }
@@ -69,19 +90,19 @@ namespace FunWith2DArrays
                 for (int c = 0; c < numOfCols; c++)
                 {
                     // Random Symbols
-                    if (inputChoice == "1")
+                    if (inputChoice == COLOURFUL_SYMBOLS)
                     {
                         Console.Write($" {symbolsArray[rand.Next(symbolsArray.Length)]} ", Color.FromName(colorNames[rand.Next(colorNames.Length)]));
                     }
 
                     // Coordinates
-                    if (inputChoice == "2")
+                    if (inputChoice == COORDINATES)
                     {
                         Console.Write($"({r},{c})".PadLeft(maxCellWidth).PadRight(maxCellWidth + 1));
                     }
 
                     // Number sequence
-                    if (inputChoice == "3")
+                    if (inputChoice == NUMBER_SEQUENCE)
                     {
                         Console.Write($"{sequenceCounter}".PadLeft(maxCellWidth).PadRight(maxCellWidth + 1));
                         sequenceCounter++;
